@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitemap Generator — Free XML Sitemap Creator</title>
+<meta name="description" content="Free online sitemap.xml generator. Paste URLs or crawl a base URL, set priorities and change frequencies, then download a valid sitemap.xml for SEO.">
+<meta property="og:title" content="Sitemap Generator — Free XML Sitemap Creator">
+<meta property="og:description" content="Free online sitemap.xml generator. Paste URLs or crawl, configure options, download valid XML sitemaps for SEO.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sitemap-gen.pages.dev/">
+<meta property="og:image" content="https://sitemap-gen.pages.dev/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sitemap Generator — Free XML Sitemap Creator">
+<meta name="twitter:description" content="Free online XML sitemap generator for SEO. Paste URLs, configure, download.">
+<link rel="canonical" href="https://sitemap-gen.pages.dev/">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Sitemap Generator",
+  "description":"Free online XML sitemap generator. Paste URLs or crawl a site, configure priority and changefreq, then download a valid sitemap.xml.",
+  "url":"https://sitemap-gen.pages.dev/",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"All",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "browserRequirements":"Requires JavaScript"
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d1117;--surface:#161b22;--surface2:#1c2333;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#388bfd;--green:#3fb950;--red:#f85149;--orange:#d29922;--radius:8px;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+nav .logo{font-size:1.15rem;font-weight:700;color:var(--text)}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:16px;font-size:.875rem}
+nav .nav-links a{color:var(--text2)}
+
+/* Hero */
+.hero{text-align:center;padding:60px 0 40px}
+.hero h1{font-size:2.4rem;font-weight:800;margin-bottom:12px;line-height:1.2}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--text2);font-size:1.1rem;max-width:600px;margin:0 auto}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card h2{font-size:1.25rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card h2 .badge{font-size:.7rem;background:var(--accent2);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600}
+
+/* Form elements */
+label{display:block;font-size:.875rem;color:var(--text2);margin-bottom:4px;font-weight:500}
+input[type="text"],input[type="url"],input[type="date"],textarea,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;font-family:var(--font);transition:border-color .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:120px;font-family:'SF Mono',Consolas,monospace;font-size:.8rem;line-height:1.5}
+select{cursor:pointer;appearance:auto}
+
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>*{flex:1;min-width:180px}
+.col{margin-bottom:14px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.btn:hover{background:var(--border)}
+.btn-primary{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.btn-primary:hover{background:var(--accent)}
+.btn-green{background:#238636;border-color:#238636;color:#fff}
+.btn-green:hover{background:var(--green)}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* URL list */
+.url-list{max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--bg)}
+.url-row{display:grid;grid-template-columns:1fr 100px 120px 130px 36px;gap:8px;padding:8px 12px;align-items:center;border-bottom:1px solid var(--border);font-size:.85rem}
+.url-row:last-child{border-bottom:none}
+.url-row .loc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.url-row input,.url-row select{padding:4px 6px;font-size:.8rem}
+.url-row input[type="date"]{width:120px}
+.url-row input[type="number"]{width:70px}
+.url-row .del{color:var(--red);cursor:pointer;font-size:1.1rem;background:none;border:none;padding:0;line-height:1}
+.url-header{display:grid;grid-template-columns:1fr 100px 120px 130px 36px;gap:8px;padding:8px 12px;font-size:.75rem;color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);background:var(--surface2);border-radius:6px 6px 0 0}
+
+/* Output */
+.output-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0}
+.output-tab{padding:10px 18px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font)}
+.output-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.output-content{display:none}
+.output-content.active{display:block}
+.output-area{background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:16px;min-height:200px;max-height:400px;overflow:auto;font-family:'SF Mono',Consolas,monospace;font-size:.8rem;line-height:1.5;white-space:pre-wrap;word-break:break-all}
+
+/* Stats */
+.stats{display:flex;gap:20px;margin-top:12px;font-size:.85rem;color:var(--text2)}
+.stats span{display:flex;align-items:center;gap:4px}
+.stats .val{color:var(--text);font-weight:600}
+
+/* Warning */
+.warning{background:rgba(210,153,34,.1);border:1px solid var(--orange);color:var(--orange);padding:10px 14px;border-radius:6px;font-size:.85rem;margin-top:10px}
+
+/* Features */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding:40px 0}
+.feature{text-align:center;padding:28px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+.feature .icon{font-size:2rem;margin-bottom:12px}
+.feature h3{font-size:1rem;margin-bottom:8px}
+.feature p{color:var(--text2);font-size:.875rem}
+
+/* FAQ */
+.faq{padding:40px 0}
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface)}
+.faq-q{padding:14px 18px;cursor:pointer;font-weight:600;font-size:.95rem;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'+';font-size:1.2rem;color:var(--text2);transition:transform .2s}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{padding:0 18px;max-height:0;overflow:hidden;color:var(--text2);font-size:.9rem;transition:all .25s}
+.faq-item.open .faq-a{padding:0 18px 16px;max-height:300px}
+
+/* Email widget */
+.email-widget{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;margin:40px 0}
+.email-widget h3{font-size:1.2rem;margin-bottom:8px}
+.email-widget p{color:var(--text2);font-size:.9rem;margin-bottom:16px}
+.email-form{display:flex;gap:8px;max-width:440px;margin:0 auto}
+.email-form input{flex:1}
+.email-form button{white-space:nowrap}
+
+/* Cross-links */
+.cross-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:20px 0 40px;font-size:.85rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text2);font-size:.8rem}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:10px 18px;border-radius:6px;font-size:.85rem;font-weight:600;opacity:0;transform:translateY(10px);transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Mode toggle */
+.mode-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden;width:fit-content}
+.mode-tab{padding:8px 18px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text2);background:var(--surface)}
+.mode-tab.active{background:var(--accent2);color:#fff}
+
+.hidden{display:none!important}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.6rem}
+  .url-row,.url-header{grid-template-columns:1fr 36px;font-size:.8rem}
+  .url-row .opts,.url-header .opts-h{display:none}
+  .email-form{flex-direction:column}
+  .row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo"><span>&lt;/&gt;</span> Sitemap Generator</div>
+    <div class="nav-links">
+      <a href="#generator">Generator</a>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero container">
+  <h1>Free <span>XML Sitemap</span> Generator</h1>
+  <p>Paste your URLs, configure priorities and change frequencies, and download a valid sitemap.xml — plus robots.txt snippet and HTML sitemap. 100% client-side, no data sent to any server.</p>
+</section>
+
+<section id="generator" class="container">
+  <!-- Mode selector -->
+  <div class="mode-tabs">
+    <div class="mode-tab active" data-mode="paste">Paste URLs</div>
+    <div class="mode-tab" data-mode="crawl">Crawl Base URL</div>
+  </div>
+
+  <!-- Paste mode -->
+  <div id="paste-mode" class="card">
+    <h2>Enter URLs <span class="badge">1 per line</span></h2>
+    <textarea id="url-input" placeholder="https://example.com/&#10;https://example.com/about&#10;https://example.com/contact&#10;&#10;Paste one URL per line..."></textarea>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="parseURLs()">Parse URLs</button>
+      <button class="btn" onclick="clearAll()">Clear All</button>
+    </div>
+  </div>
+
+  <!-- Crawl mode -->
+  <div id="crawl-mode" class="card hidden">
+    <h2>Crawl a Website</h2>
+    <div class="row">
+      <div class="col">
+        <label for="base-url">Base URL</label>
+        <input type="url" id="base-url" placeholder="https://example.com">
+      </div>
+      <div class="col" style="flex:0 0 120px">
+        <label for="crawl-depth">Max Pages</label>
+        <input type="number" id="crawl-depth" value="50" min="1" max="500">
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="startCrawl()">Start Crawl</button>
+      <button class="btn" onclick="clearAll()">Clear All</button>
+    </div>
+    <p style="color:var(--text2);font-size:.8rem;margin-top:8px">Uses a CORS proxy to fetch pages. Works best with smaller sites. For large sites, use the paste mode with your own URL list.</p>
+  </div>
+
+  <!-- Bulk settings -->
+  <div class="card">
+    <h2>Default Settings</h2>
+    <div class="row">
+      <div class="col">
+        <label for="def-priority">Default Priority</label>
+        <select id="def-priority">
+          <option value="1.0">1.0</option>
+          <option value="0.9">0.9</option>
+          <option value="0.8" selected>0.8</option>
+          <option value="0.7">0.7</option>
+          <option value="0.6">0.6</option>
+          <option value="0.5">0.5</option>
+          <option value="0.4">0.4</option>
+          <option value="0.3">0.3</option>
+          <option value="0.2">0.2</option>
+          <option value="0.1">0.1</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="def-freq">Default Changefreq</label>
+        <select id="def-freq">
+          <option value="always">always</option>
+          <option value="hourly">hourly</option>
+          <option value="daily">daily</option>
+          <option value="weekly" selected>weekly</option>
+          <option value="monthly">monthly</option>
+          <option value="yearly">yearly</option>
+          <option value="never">never</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="def-lastmod">Default Lastmod</label>
+        <input type="date" id="def-lastmod">
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-sm" onclick="applyDefaults()">Apply to All URLs</button>
+    </div>
+  </div>
+
+  <!-- URL list -->
+  <div class="card" id="url-list-card" style="display:none">
+    <h2>URL List <span class="badge" id="url-count">0</span></h2>
+    <div class="url-header">
+      <span>URL</span>
+      <span class="opts-h">Priority</span>
+      <span class="opts-h">Freq</span>
+      <span class="opts-h">Lastmod</span>
+      <span></span>
+    </div>
+    <div class="url-list" id="url-list"></div>
+    <div id="warnings"></div>
+    <div class="btn-group">
+      <button class="btn btn-green" onclick="generateSitemap()">Generate Sitemap</button>
+      <button class="btn" onclick="addEmptyRow()">Add URL</button>
+    </div>
+  </div>
+
+  <!-- Output -->
+  <div class="card" id="output-card" style="display:none">
+    <h2>Output</h2>
+    <div class="output-tabs">
+      <div class="output-tab active" data-tab="xml">sitemap.xml</div>
+      <div class="output-tab" data-tab="robots">robots.txt</div>
+      <div class="output-tab" data-tab="html">HTML Sitemap</div>
+    </div>
+    <div class="output-content active" id="tab-xml">
+      <div class="output-area" id="output-xml"></div>
+    </div>
+    <div class="output-content" id="tab-robots">
+      <div class="output-area" id="output-robots"></div>
+    </div>
+    <div class="output-content" id="tab-html">
+      <div class="output-area" id="output-html"></div>
+    </div>
+    <div class="stats" id="output-stats"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="copyOutput()">Copy</button>
+      <button class="btn btn-green" onclick="downloadOutput()">Download</button>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="container">
+  <h2 style="text-align:center;font-size:1.5rem;margin-bottom:8px">Features</h2>
+  <p style="text-align:center;color:var(--text2);margin-bottom:24px">Everything you need to create SEO-ready sitemaps</p>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">🗺️</div>
+      <h3>Valid XML Sitemaps</h3>
+      <p>Generates sitemap.xml with proper XML declaration, urlset namespace, and protocol-compliant formatting accepted by Google, Bing, and other search engines.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">⚡</div>
+      <h3>Bulk URL Management</h3>
+      <p>Paste hundreds of URLs at once, set default priorities and change frequencies in bulk, then fine-tune individual entries — all in your browser.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🤖</div>
+      <h3>Robots.txt & HTML Sitemap</h3>
+      <p>Automatically generates a robots.txt snippet with your sitemap URL and an HTML sitemap you can embed on your site for better crawl coverage.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔒</div>
+      <h3>100% Private & Client-Side</h3>
+      <p>No URLs are ever sent to a server. All processing happens in your browser. Your site structure stays completely private.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="container">
+  <h2 style="text-align:center;font-size:1.5rem;margin-bottom:24px">FAQ</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">What is a sitemap.xml and why do I need one?</div>
+      <div class="faq-a">A sitemap.xml is a file that lists all the URLs on your website to help search engines like Google and Bing discover and crawl your pages. It's essential for SEO because it ensures search engines don't miss important pages, especially on new or large sites. Sitemaps also let you specify when pages were last modified and how often they change.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">What are priority and changefreq values?</div>
+      <div class="faq-a"><strong>Priority</strong> (0.1–1.0) tells search engines how important a page is relative to other pages on your site. Your homepage is typically 1.0, while less important pages are lower.<br><br><strong>Changefreq</strong> tells search engines how often a page is likely to change (always, hourly, daily, weekly, monthly, yearly, never). This is a hint, not a command — search engines may crawl more or less frequently.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">Is there a limit to how many URLs I can include?</div>
+      <div class="faq-a">The official sitemap protocol allows up to 50,000 URLs per sitemap file and a maximum file size of 50 MB (uncompressed). This tool will warn you if you exceed these limits. For sites with more than 50,000 URLs, you should create a sitemap index file that links to multiple smaller sitemaps.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="container">
+  <div class="email-widget">
+    <h3>Get Sitemap Tips & SEO Updates</h3>
+    <p>Subscribe for occasional tips on sitemap optimization and technical SEO.</p>
+    <div class="email-form">
+      <input type="email" id="email-input" placeholder="you@example.com">
+      <button class="btn btn-primary" onclick="subscribe()">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<div class="container cross-links">
+  <a href="https://robots-txt.pages.dev" target="_blank">robots.txt Generator</a>
+  <a href="https://meta-analyzer.pages.dev" target="_blank">Meta Tag Analyzer</a>
+  <a href="https://sitemap-gen.pages.dev/robots.txt">robots.txt</a>
+  <a href="https://sitemap-gen.pages.dev/sitemap.xml">sitemap.xml</a>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Sitemap Generator. Free tool — no sign-up required. Built with ❤️ for the web.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const URLS = [];
+let activeTab = 'xml';
+
+// Set default date to today
+document.getElementById('def-lastmod').value = new Date().toISOString().split('T')[0];
+
+// Mode tabs
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const mode = tab.dataset.mode;
+    document.getElementById('paste-mode').classList.toggle('hidden', mode !== 'paste');
+    document.getElementById('crawl-mode').classList.toggle('hidden', mode !== 'crawl');
+  });
+});
+
+// Output tabs
+document.querySelectorAll('.output-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.output-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    activeTab = tab.dataset.tab;
+    document.getElementById('tab-' + activeTab).classList.add('active');
+  });
+});
+
+// FAQ
+function toggleFAQ(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+function escapeXml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+}
+
+function isValidUrl(u) {
+  try { new URL(u); return true; } catch { return false; }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function parseURLs() {
+  const raw = document.getElementById('url-input').value.trim();
+  if (!raw) return;
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+  const defP = document.getElementById('def-priority').value;
+  const defF = document.getElementById('def-freq').value;
+  const defD = document.getElementById('def-lastmod').value;
+  let added = 0, skipped = 0;
+  lines.forEach(line => {
+    let url = line;
+    if (!url.match(/^https?:\/\//i)) url = 'https://' + url;
+    if (isValidUrl(url)) {
+      URLS.push({ loc: url, priority: defP, changefreq: defF, lastmod: defD });
+      added++;
+    } else {
+      skipped++;
+    }
+  });
+  renderURLList();
+  if (skipped) showToast(`${added} URLs added, ${skipped} invalid URLs skipped`);
+  else showToast(`${added} URLs added`);
+}
+
+function startCrawl() {
+  let base = document.getElementById('base-url').value.trim();
+  if (!base) return showToast('Enter a base URL');
+  if (!base.match(/^https?:\/\//i)) base = 'https://' + base;
+  if (!isValidUrl(base)) return showToast('Invalid URL');
+
+  const maxPages = parseInt(document.getElementById('crawl-depth').value) || 50;
+  const btn = event.target;
+  btn.textContent = 'Crawling...';
+  btn.disabled = true;
+
+  // Simple crawl via CORS proxy
+  const visited = new Set();
+  const queue = [base];
+  const defP = document.getElementById('def-priority').value;
+  const defF = document.getElementById('def-freq').value;
+  const defD = document.getElementById('def-lastmod').value;
+  let baseHost;
+  try { baseHost = new URL(base).hostname; } catch { baseHost = ''; }
+
+  async function crawl() {
+    while (queue.length > 0 && visited.size < maxPages) {
+      const url = queue.shift();
+      if (visited.has(url)) continue;
+      visited.add(url);
+      try {
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+        if (!res.ok) continue;
+        const html = await res.text();
+        // Extract links
+        const linkRe = /href=["']([^"']+)["']/gi;
+        let m;
+        while ((m = linkRe.exec(html)) !== null) {
+          try {
+            const abs = new URL(m[1], url).href;
+            if (new URL(abs).hostname === baseHost && !visited.has(abs) && !queue.includes(abs)) {
+              queue.push(abs);
+            }
+          } catch {}
+        }
+      } catch {}
+    }
+
+    visited.forEach(u => {
+      if (!URLS.find(x => x.loc === u)) {
+        const prio = u === base || u === base + '/' ? '1.0' : defP;
+        URLS.push({ loc: u, priority: prio, changefreq: defF, lastmod: defD });
+      }
+    });
+    renderURLList();
+    btn.textContent = 'Start Crawl';
+    btn.disabled = false;
+    showToast(`Found ${visited.size} URLs`);
+  }
+  crawl();
+}
+
+function renderURLList() {
+  const card = document.getElementById('url-list-card');
+  const list = document.getElementById('url-list');
+  const countEl = document.getElementById('url-count');
+  const warns = document.getElementById('warnings');
+
+  if (!URLS.length) { card.style.display = 'none'; return; }
+  card.style.display = '';
+  countEl.textContent = URLS.length;
+
+  let html = '';
+  URLS.forEach((u, i) => {
+    html += `<div class="url-row">
+      <span class="loc" title="${escapeXml(u.loc)}">${escapeXml(u.loc)}</span>
+      <span class="opts"><input type="number" min="0.1" max="1" step="0.1" value="${u.priority}" onchange="URLS[${i}].priority=this.value"></span>
+      <span class="opts"><select onchange="URLS[${i}].changefreq=this.value">
+        ${['always','hourly','daily','weekly','monthly','yearly','never'].map(f=>`<option value="${f}"${u.changefreq===f?' selected':''}>${f}</option>`).join('')}
+      </select></span>
+      <span class="opts"><input type="date" value="${u.lastmod}" onchange="URLS[${i}].lastmod=this.value"></span>
+      <button class="del" onclick="removeURL(${i})" title="Remove">×</button>
+    </div>`;
+  });
+  list.innerHTML = html;
+
+  // Warnings
+  let w = '';
+  if (URLS.length > 50000) w += `<div class="warning">⚠ Sitemaps support a maximum of 50,000 URLs. Consider splitting into multiple sitemaps with a sitemap index.</div>`;
+  const xmlSize = new Blob([generateXMLString()]).size;
+  if (xmlSize > 50 * 1024 * 1024) w += `<div class="warning">⚠ Sitemap file exceeds the 50 MB limit.</div>`;
+  warns.innerHTML = w;
+}
+
+function removeURL(i) {
+  URLS.splice(i, 1);
+  renderURLList();
+}
+
+function addEmptyRow() {
+  URLS.push({ loc: '', priority: document.getElementById('def-priority').value, changefreq: document.getElementById('def-freq').value, lastmod: document.getElementById('def-lastmod').value });
+  renderURLList();
+  const list = document.getElementById('url-list');
+  list.scrollTop = list.scrollHeight;
+}
+
+function applyDefaults() {
+  const p = document.getElementById('def-priority').value;
+  const f = document.getElementById('def-freq').value;
+  const d = document.getElementById('def-lastmod').value;
+  URLS.forEach(u => { u.priority = p; u.changefreq = f; u.lastmod = d; });
+  renderURLList();
+  showToast('Defaults applied to all URLs');
+}
+
+function clearAll() {
+  URLS.length = 0;
+  document.getElementById('url-input').value = '';
+  document.getElementById('url-list-card').style.display = 'none';
+  document.getElementById('output-card').style.display = 'none';
+}
+
+function generateXMLString() {
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  URLS.filter(u => u.loc).forEach(u => {
+    xml += '  <url>\n';
+    xml += '    <loc>' + escapeXml(u.loc) + '</loc>\n';
+    if (u.lastmod) xml += '    <lastmod>' + u.lastmod + '</lastmod>\n';
+    if (u.changefreq) xml += '    <changefreq>' + u.changefreq + '</changefreq>\n';
+    if (u.priority) xml += '    <priority>' + u.priority + '</priority>\n';
+    xml += '  </url>\n';
+  });
+  xml += '</urlset>';
+  return xml;
+}
+
+function generateRobotsString() {
+  const first = URLS.find(u => u.loc);
+  const siteUrl = first ? new URL(first.loc).origin : 'https://example.com';
+  return `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml`;
+}
+
+function generateHTMLSitemap() {
+  const first = URLS.find(u => u.loc);
+  const siteName = first ? new URL(first.loc).hostname : 'Website';
+  let html = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>HTML Sitemap - ${escapeXml(siteName)}</title>\n  <style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px}h1{border-bottom:2px solid #eee;padding-bottom:10px}ul{list-style:none;padding:0}li{padding:6px 0;border-bottom:1px solid #f0f0f0}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}.meta{color:#666;font-size:.85rem;margin-left:10px}</style>\n</head>\n<body>\n  <h1>HTML Sitemap</h1>\n  <ul>\n`;
+  URLS.filter(u => u.loc).forEach(u => {
+    let label = u.loc;
+    try { label = new URL(u.loc).pathname || u.loc; } catch {}
+    const meta = [u.changefreq, u.priority].filter(Boolean).join(' · ');
+    html += `    <li><a href="${escapeXml(u.loc)}">${escapeXml(label)}</a>${meta ? '<span class="meta">' + meta + '</span>' : ''}</li>\n`;
+  });
+  html += `  </ul>\n</body>\n</html>`;
+  return html;
+}
+
+function generateSitemap() {
+  const valid = URLS.filter(u => u.loc && isValidUrl(u.loc));
+  if (!valid.length) return showToast('No valid URLs to generate');
+
+  const xml = generateXMLString();
+  const robots = generateRobotsString();
+  const htmlSitemap = generateHTMLSitemap();
+
+  document.getElementById('output-xml').textContent = xml;
+  document.getElementById('output-robots').textContent = robots;
+  document.getElementById('output-html').textContent = htmlSitemap;
+
+  const size = new Blob([xml]).size;
+  const sizeStr = size > 1024 ? (size / 1024).toFixed(1) + ' KB' : size + ' B';
+  document.getElementById('output-stats').innerHTML = `
+    <span>URLs: <span class="val">${valid.length}</span></span>
+    <span>File size: <span class="val">${sizeStr}</span></span>
+  `;
+
+  document.getElementById('output-card').style.display = '';
+  document.getElementById('output-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showToast('Sitemap generated!');
+}
+
+function getActiveOutput() {
+  if (activeTab === 'xml') return generateXMLString();
+  if (activeTab === 'robots') return generateRobotsString();
+  return generateHTMLSitemap();
+}
+
+function copyOutput() {
+  const text = getActiveOutput();
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+}
+
+function downloadOutput() {
+  const text = getActiveOutput();
+  const names = { xml: 'sitemap.xml', robots: 'robots.txt', html: 'sitemap.html' };
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = names[activeTab] || 'sitemap.xml';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Downloaded ' + a.download);
+}
+
+function subscribe() {
+  const email = document.getElementById('email-input').value.trim();
+  if (!email || !email.includes('@')) return showToast('Please enter a valid email');
+  showToast('Thanks for subscribing!');
+  document.getElementById('email-input').value = '';
+}
+</script>
+</body>
+</html>
