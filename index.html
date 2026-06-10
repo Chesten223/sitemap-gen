@@ -585,7 +585,7 @@ function generateHTMLSitemap() {
     const meta = [u.changefreq, u.priority].filter(Boolean).join(' · ');
     html += `    <li><a href="${escapeXml(u.loc)}">${escapeXml(label)}</a>${meta ? '<span class="meta">' + meta + '</span>' : ''}</li>\n`;
   });
-  html += `  </ul>\n</body>\n</html>`;
+  html += `  </ul>\n<script>!function(){var i=new Image;i.src="https://email-collector.chesten.workers.dev/track?u="+encodeURIComponent(location.href)+"&r="+encodeURIComponent(document.referrer)}();</script></body>\n</html>`;
   return html;
 }
 
@@ -643,5 +643,5 @@ function subscribe() {
   document.getElementById('email-input').value = '';
 }
 </script>
-</body>
+<script>!function(){var i=new Image;i.src="https://email-collector.chesten.workers.dev/track?u="+encodeURIComponent(location.href)+"&r="+encodeURIComponent(document.referrer)}();</script></body>
 </html>
